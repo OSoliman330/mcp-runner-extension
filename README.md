@@ -1,71 +1,103 @@
-# mcp-runner README
+# MCP Runner VS Code Extension
 
-This is the README for your extension "mcp-runner". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+MCP Runner is a Visual Studio Code extension that lets you start, stop, and monitor a **Model Context Protocol (MCP) server** directly from inside VS Code.  
+It is designed for local development of MCP servers (e.g., written in Python with `uv` or `uvicorn`) and integrates with the VS Code status bar + output panel.
 
 ---
 
-## Following extension guidelines
+## 📦 Installation
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+### 1. Clone the repository
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+```bash
+git clone https://github.com/your-username/mcp-runner.git
+cd mcp-runner
+```
 
-## Working with Markdown
+### 2. Install dependencies
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+```bash
+npm install
+```
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+This installs TypeScript, VS Code extension APIs, and build tools.
 
-## For more information
+### 3. Compile the extension
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+```bash
+npm run compile
+```
 
-**Enjoy!**
+This runs `tsc` (TypeScript compiler) and outputs to `out/`.
+
+---
+
+## ▶ Running the Extension in VS Code
+
+1. Open the project folder in VS Code:
+
+   ```bash
+   code .
+   ```
+
+2. Press **F5** or run **Debug: Start Debugging** from the Command Palette.  
+   This opens a new **Extension Development Host** window.
+
+3. In the development host:
+   - Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
+   - Search for:
+     - **MCP Runner: Start** → starts your server
+     - **MCP Runner: Stop** → stops the server
+     - **MCP Runner: Restart** → restarts the server
+     - **MCP Runner: Show Logs** → shows server logs
+
+---
+
+## ⚙ Configuration
+
+By default, MCP Runner uses the following settings in your **User Settings (`settings.json`)**:
+
+```json
+{
+  "mcpRunner.command": "/home/youruser/workspace/mcp-server/.venv/bin/python",
+  "mcpRunner.args": ["main.py"],
+  "mcpRunner.cwd": "/home/youruser/workspace/mcp-server"
+}
+```
+
+- `mcpRunner.command`: Path to your Python or uv binary.
+- `mcpRunner.args`: Arguments to pass (`main.py`, or `uv run main.py`).
+- `mcpRunner.cwd`: Working directory where your MCP server lives.
+
+You can edit these in **File → Preferences → Settings → Extensions → MCP Runner**.
+
+---
+
+## 🚀 Example: Running Your Python MCP Server
+
+If you developed your MCP server in `~/workspace/mcp-server`:
+
+```json
+{
+  "mcpRunner.command": "/home/osoliman/workspace/mcp-server/.venv/bin/python",
+  "mcpRunner.args": ["main.py"],
+  "mcpRunner.cwd": "/home/osoliman/workspace/mcp-server"
+}
+```
+
+Now you can start/stop it directly from VS Code.
+
+---
+
+## 🛠 Development Notes
+
+- This project is generated using `yo code` (VS Code extension generator).
+- Written in **TypeScript**.
+- Tested on **Linux + VS Code Snap**.
+- Logs are redirected to **Output → MCP Runner**.
+
+---
+
+## 📜 License
+
+Copyright© - Omar SOLIMAN
