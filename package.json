@@ -1,0 +1,83 @@
+{
+  "name": "mcp-runner",
+  "displayName": "MCP Runner",
+  "description": "Auto-start and manage local MCP servers (start/stop/restart, logs, status bar).",
+  "version": "0.1.0",
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:mcpRunner.start",
+    "onCommand:mcpRunner.stop",
+    "onCommand:mcpRunner.restart",
+    "onCommand:mcpRunner.showLogs"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "mcpRunner.start", "title": "MCP Runner: Start Server" },
+      { "command": "mcpRunner.stop", "title": "MCP Runner: Stop Server" },
+      { "command": "mcpRunner.restart", "title": "MCP Runner: Restart Server" },
+      { "command": "mcpRunner.showLogs", "title": "MCP Runner: Show Logs" }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "MCP Runner",
+      "properties": {
+        "mcpRunner.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start the MCP server automatically when VS Code starts."
+        },
+        "mcpRunner.command": {
+          "type": "string",
+          "default": "/home/osoliman/workspace/mcp-server/.venv/bin/uv",
+          "description": "Executable to run your MCP server (e.g. uv, python)."
+        },
+        "mcpRunner.args": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["run", "main.py"],
+          "description": "Arguments passed to the command."
+        },
+        "mcpRunner.cwd": {
+          "type": "string",
+          "default": "/home/osoliman/workspace/mcp-server",
+          "description": "Working directory where the server runs."
+        },
+        "mcpRunner.readyPattern": {
+          "type": "string",
+          "default": "Application startup complete\\.|Uvicorn running on",
+          "description": "Regex to detect 'server is ready' from stdout/stderr."
+        },
+        "mcpRunner.env": {
+          "type": "object",
+          "default": {},
+          "description": "Extra environment variables for the server process (e.g. {\"API_KEY\":\"...\"})."
+        },
+        "mcpRunner.killSignal": {
+          "type": "string",
+          "default": "SIGTERM",
+          "enum": ["SIGTERM", "SIGINT", "SIGKILL"],
+          "description": "Signal used to stop the server."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "test": "echo \"(add tests if needed)\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.6.2",
+    "vsce": "^2.15.0"
+  }
+}
